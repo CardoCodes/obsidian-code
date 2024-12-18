@@ -1,27 +1,37 @@
 
 ### Approach
 
-I start by finding the simplest approach in this case looking for a brute force method, additionally i can use the .sort() function to simply this brute force approach. I can then iterate through the sorted vector and check if the current element is different than the precious one, iterating a counter if the current element is consecutive to the previous one. We can then iterate on this idea and convert the input vector into an unordered set, which will allow for O(1) lookup time, and removes duplicates. Then we can iterate through the set and check for a sequence.
-	1. Brute force - iterate through the array and keep track of the longest consecutive string,
-	2. Hash Set  - Create a hash set and check if num-1 is not in the set. This will ensure we only count each sequence one, and start from the smallest number to avoid redundant computations.
+The problem requires finding the length of the longest consecutive sequence in an unsorted array. The key insights are:
+1. Brute force approach involves sorting and checking consecutive elements, which is O(nlogn)
+2. Optimize by using an unordered set for O(1) lookups
+3. Identify the start of each sequence by checking if num-1 is not in the set
+4. Count consecutive elements from each sequence start
 
+The hash set approach allows us to:
+- Remove duplicates efficiently
+- Achieve O(n) time complexity
+- Start counting sequences only from their smallest element
+- Avoid redundant computations by checking sequence starts
 
 ### Implementation Details
-- **Data Structures Used**:
-  - Primary data structure(s)
-  - Auxiliary data structures
-
+-  **Data Structures Used**:
+    - Primary data structure:
+        - `unordered_set<int>`: Stores unique numbers for O(1) lookup
+    - Auxiliary data structures:
+        - Integer variables to track sequence length and longest sequence
 - **Key Operations**:
-  1. First key step
-  2. Second key step
-  3. Additional important steps
+    1. Convert input vector to an unordered set
+    2. Iterate through each number in the set
+    3. Check if the current number is the start of a sequence (no num-1 in set)
+    4. If it's a sequence start, count consecutive elements
+    5. Update the longest sequence length
 
 ### Code Template
 ```cpp
 
 // Brute force algorithm with sort and sequence check
-// Time Complexity: O(nlogn) where n is the size of the int vector
-// Space Complexity: O(1) constant space since we only use the nums int vector and some spare ints to keep track of count.
+// Time Complexity: O(nlogn)
+// Space Complexity: O(1)
 
 class Solution {
 public:
@@ -29,11 +39,11 @@ public:
         int n = nums.size();
         int count = 1;
         int max_cons = 0;
-
+        
         if (n == 0) return 0;
-
+        
         sort(nums.begin(), nums.end()); // O(nlogn) time on this sort
-
+        
         for(int i = 1; i < n; i++){
             if(nums[i] != nums[i-1]){
                 if(nums[i] == nums[i - 1] + 1){
@@ -44,43 +54,67 @@ public:
                 }
             }
         }
-
         return max(max_cons, count);
-
-
-
         
+    }
+};
+
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> numSet(nums.begin(), nums.end());
+        int longest = 0;
+        
+        for (int num : numSet) {
+            if (numSet.find(num - 1) == numSet.end()) {
+                int length = 1;
+                while (numSet.find(num + length) != numSet.end()) {
+                    length++;
+                }
+                longest = max(longest, length);
+            }
+        }
+        
+        return longest;
     }
 };
 ```
 
 ### Complexity Analysis
-- **Time Complexity**: O(?)
-  - Breakdown of time complexity
-  - Explanation of how complexity is calculated
-
-- **Space Complexity**: O(?)
-  - Breakdown of space complexity
-  - Explanation of additional space used
-
+- **Time Complexity**: O(n)
+    - Creating the unordered set takes O(n) time
+    - Iterating through the set once takes O(n)
+    - Inner while loop might seem nested, but each number is visited at most twice
+    - Total time complexity remains O(n)
+- **Space Complexity**: O(n)
+    - Unordered set stores all unique numbers from the input
+    - Additional constant space for tracking sequence length
+    - Space directly proportional to the number of unique elements in the input
 ### Important Notes
-- Key observations
-- Potential pitfalls
-- Common edge cases to consider
-
+- Handles empty input array
+- Efficiently deals with duplicate numbers
+- Only counts sequences starting from their smallest element
+- Works with both positive and negative integers
+- Key observation: checking num-1 absence ensures unique sequence counting
 ### Variations and Follow-up
-- Alternative approaches
-- Related problems
-- Potential optimizations
-
+- Alternative approaches:
+    - Sorting-based solution (O(nlogn) time)
+    - Disjoint set (Union-Find) approach
+- Related problems:
+    - Finding subsequences
+    - Longest increasing subsequence
+    - Maximum consecutive elements in an array
+- Potential optimizations:
+    - Early termination if no sequences found
+    - Combine set creation and sequence checking in a single pass
 ### Learning Highlights
-- Key algorithms/techniques demonstrated
-- Important C++ operations or methods used
-```
-
-## Best Practices
-1. Always analyze time and space complexity
-2. Consider edge cases
-3. Use appropriate data structures
-4. Write clean, readable code
+- Demonstrated efficient use of `unordered_set`
+- Showcased O(n) time complexity algorithm
+- C++ features utilized:
+    - Range-based for loop
+    - Set constructors
+    - `max()` function
+- Importance of choosing the right data structure
 
