@@ -6,15 +6,18 @@ Gradient descent is an iterative optimization algorithm used to minimize a cost 
 
 - Algorithms Used
     - Batch Gradient Descent
-        - $$\theta_j = \theta_j - \alpha \centerdot \nabla J(\theta)$$
+        - $\theta_j = \theta_j - \alpha \centerdot \nabla J(\theta)$
+        - Update once per iteration using all samples: $w_{t+1} = w_t - \alpha\frac{1}{n}\sum_{i=1}^{n}x_i(\hat{y}_i - y_i)$ $b_{t+1} = b_t - \alpha\frac{1}{n}\sum_{i=1}^{n}(\hat{y}_i - y_i)$
         - Updates parameters using the gradient computed over the entire dataset
         - Most stable but computationally expensive for large datasets
     - Stochastic Gradient Descent (SGD)
-        - $$\theta_j = \theta_j - \alpha \centerdot \nabla J_i(\theta)$$
+        - $\theta_j = \theta_j - \alpha \centerdot \nabla J_i(\theta)$
+        - Update for each sample $i$: $w_{t+1} = w_t - \alpha x_i(\hat{y}_i - y_i)$ $b_{t+1} = b_t - \alpha(\hat{y}_i - y_i)$
         - Updates parameters using gradient computed from a single random example
         - Faster but noisier convergence
     - Mini Batch Gradient Descent
-        - $$\theta_j = \theta_j - \alpha \centerdot \nabla J_B(\theta)$$
+        - $\theta_j = \theta_j - \alpha \centerdot \nabla J_B(\theta)$
+        - Update for each mini-batch $B$ of size $m$: $w_{t+1} = w_t - \alpha\frac{1}{m}\sum_{i\in B}x_i(\hat{y}_i - y_i)$ $b_{t+1} = b_t - \alpha\frac{1}{m}\sum_{i\in B}(\hat{y}_i - y_i)$
         - Updates parameters using gradient computed from a subset of examples
         - Balances stability and computational efficiency
 - **Key Operations**:
