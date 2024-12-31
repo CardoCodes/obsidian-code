@@ -118,19 +118,6 @@ def gradient_descent(X, y, weights, learning_rate, n_iterations, batch_size=32, 
 - Monitor cost history to detect convergence issues
 - Consider using adaptive learning rates for better convergence
 
-### Variations and Follow-up
-
-- Alternative approaches:
-    - Momentum-based gradient descent
-    - Adam optimizer
-    - RMSprop
-    - Adagrad
-- Potential optimizations:
-    - Vectorized operations for mini-batch processing
-    - Early stopping based on convergence
-    - Learning rate scheduling
-    - Batch normalization
-
 ### Learning Highlights
 
 - Key algorithms/techniques demonstrated:
